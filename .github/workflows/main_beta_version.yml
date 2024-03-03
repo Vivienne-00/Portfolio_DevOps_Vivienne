@@ -1,0 +1,22 @@
+on: 
+  push:
+    tags:        
+        - beta/*
+
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: winweb20.servicehoster.ch
+        username: ${{ secrets.user }}
+        password: ${{ secrets.password }}
+        local-dir: ./public/ 
+        server-dir: ./beta/
