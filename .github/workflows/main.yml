@@ -3,8 +3,11 @@ on:
     tags:        
         - release/*
 
-name: 🚀 Deploy website on push
+name: 🚀 Deploy website on push release
 jobs:
+  build-mk:
+    name: 🏗️ Compile MarkDown
+    uses: ./.github/workflows/build_mk.yml
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
