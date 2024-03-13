@@ -7,11 +7,14 @@ name: 🚀 Deploy website on push beta
 jobs:
   web-deploy:
     name: 🎉 Deploy
+    needs: build-page
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
-    
+    - name: 🔽 Downloading artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: public-page
+        path: public
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
