@@ -1,13 +1,28 @@
 on: 
   push:
-    tags:        
-        - release/*
-
-name: 🚀 Deploy website on push release
+    tags:
+      - 'release/*'
+      - 'beta/*'
+name: 🚀 Deploy website on push
 jobs:
-  build-mk:
-    name: 🏗️ Compile MarkDown
-    uses: ./.github/workflows/build_mk.yml
+
+  build-page:
+    name: ⚙️ Build page
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get code from repository
+      uses: actions/checkout@v3
+    - name: ⚙️ Building web page
+      run: |
+          pip install mkdocs mkdocs-material
+          mkdocs build --site-dir "public/"
+    - name: 💾 Storing generated page for later usage
+      uses: actions/upload-artifact@v3
+      with: 
+        name: public-page
+        path: public
+        retention-days: 0
+
   web-deploy:
     name: 🎉 Deploy
     needs: build-page
@@ -24,5 +39,5 @@ jobs:
         server: winweb20.servicehoster.ch
         username: ${{ secrets.user }}
         password: ${{ secrets.password }}
-        local-dir: ./public/ 
-        server-dir: ./latest/
+        local-dir: ./public/
+        server-dir: ${{ github.ref == 'refs/tags/release/*' && './latest/' || './beta/' }}

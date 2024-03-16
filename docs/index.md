@@ -1,7 +1,6 @@
 # Willkommen
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet aliquet sem, at bibendum tellus. Nam porta mi in sollicitudin molestie. In non rutrum augue. Maecenas vehicula dolor sapien.
-[Details](details.md)
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Kurzer Einleitungstext mit einem Link auf [Details](details.md).
 
 ## Test Kapitel 1
 
