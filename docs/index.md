@@ -1,6 +1,6 @@
 # Willkommen
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Kurzer Einleitungstext mit einem Link auf [Details](details.md).
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Kurzer Einleitungstext mit einem Link auf die Seite [Details](details.md).
 
 ## Test Kapitel 1
 

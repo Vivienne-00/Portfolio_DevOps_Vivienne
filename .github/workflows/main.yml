@@ -55,4 +55,4 @@ jobs:
         password: ${{ secrets.password }}
         port: 21
         local-dir: ./public/
-        server-dir: ${{ github.ref == 'refs/tags/release/*' && './latest/' || './beta/' }}
+        server-dir: ${{ contains(github.ref, 'refs/tags/release/') && 'latest/' || contains(github.ref, 'refs/tags/beta/') && 'beta/' }}
