@@ -3,9 +3,9 @@ on:
     tags:
       - 'release/*'
       - 'beta/*'
+      
 name: 🚀 Deploy website on push
 jobs:
-
   set-env:
     name: ⚛ Create Environment
     runs-on: ubuntu-latest
@@ -16,6 +16,7 @@ jobs:
     outputs:
       BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
+
   build-page:
     name: ⚙️ Build page
     needs: set-env
@@ -23,17 +24,20 @@ jobs:
     steps:
     - name: 🚚 Get code from repository
       uses: actions/checkout@v3 
+
     - name: ⚙️ Building web page
       run: |
           pip install mkdocs mkdocs-material
           sed -i "s/\${BUILD_VERSION}/${{ needs.set-env.outputs.BUILD_VERSION }}/" mkdocs.yml
           mkdocs build --site-dir "public/"
+
     - name: 💾 Storing generated page for later usage
       uses: actions/upload-artifact@v3
       with: 
         name: public-page
         path: public
         retention-days: 0
+
 
   web-deploy:
     name: 🎉 Deploy
@@ -45,6 +49,7 @@ jobs:
       with:
         name: public-page
         path: public
+
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -54,6 +59,7 @@ jobs:
         port: 21
         local-dir: ./public/
         server-dir: ${{ contains(github.ref, 'refs/tags/release/') && 'latest/' || contains(github.ref, 'refs/tags/beta/') && 'beta/' }}
+
 
   create-release:
     name: 🚀 Create Release
@@ -67,6 +73,7 @@ jobs:
       with:
         name: public-page
         path: public
+
     - name: 📂 Create ZIP file   
       run: |
         cd public
@@ -78,6 +85,7 @@ jobs:
       with:
         name: ${{needs.set-env.outputs.BUILD_VERSION}}        
         artifacts: public/DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
+        body: ""
 
     - name: 🛬 Pre-Release
       if: startsWith(github.ref, 'refs/tags/beta')
@@ -85,4 +93,5 @@ jobs:
       with:
         name: ${{needs.set-env.outputs.BUILD_VERSION}}
         artifacts: public/DevOps-Demo-${{needs.set-env.outputs.BUILD_VERSION}}.zip
+        body: ""
         prerelease: true

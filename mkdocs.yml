@@ -4,7 +4,7 @@ theme:
   name: material
   palette:
     scheme: slate
-    primary: indigo
+    primary: deep purple
   features:
     - navigation.tabs
     - navigation.tabs.sticky
