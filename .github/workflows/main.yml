@@ -22,13 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get code from repository
-      uses: actions/checkout@v3
-    - name: 🔄 Update mkdocs.yml with version
-      run: |
-        sed -i "s/\${BUILD_VERSION}/${{ needs.set-env.outputs.BUILD_VERSION }}/" mkdocs.yml
+      uses: actions/checkout@v3 
     - name: ⚙️ Building web page
       run: |
           pip install mkdocs mkdocs-material
+          sed -i "s/\${BUILD_VERSION}/${{ needs.set-env.outputs.BUILD_VERSION }}/" mkdocs.yml
           mkdocs build --site-dir "public/"
     - name: 💾 Storing generated page for later usage
       uses: actions/upload-artifact@v3
